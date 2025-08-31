@@ -31,8 +31,10 @@ jobs:
           git config --global user.name "pacman-bot"
           git config --global user.email "action@github.com"
           git add .
+          git commit -m "temp commit" || echo "No changes"
+          git checkout output 2>/dev/null || git checkout --orphan output && git rm -rf . && git checkout main -- .
+          git add .
           git commit -m "Update Pac-Man game" || echo "No changes"
-          git checkout output 2>/dev/null || git checkout --orphan output
           git push origin output -f
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
