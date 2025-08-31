@@ -16,10 +16,9 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - name: Checkout output branch
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: output
           fetch-depth: 0
 
       - name: Generate Pac-Man contribution graph
@@ -33,6 +32,7 @@ jobs:
           git config --global user.email "action@github.com"
           git add .
           git commit -m "Update Pac-Man game" || echo "No changes"
-          git push origin output
+          git checkout output 2>/dev/null || git checkout --orphan output
+          git push origin output -f
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
